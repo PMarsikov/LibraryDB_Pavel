@@ -1,16 +1,23 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using LibraryDB_Pavel.Model;
+using LibraryDB_Pavel.Extensions;
+using LibraryDB_Pavel.Repository;
+using LibraryDB_Pavel.Repository.Interfaces;
 
 namespace LibraryDB_Pavel.ViewModel
 {
     public class BooksViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<Book> Books { get; set; }
-
+        private readonly IRepository<Book> _bookRepository;
         public BooksViewModel()
         {
+            this._bookRepository = new BookRepository(new DbBookContext());
+            Books = _bookRepository.GetObjects().ToObservableCollection();
+            /*
             Books = new ObservableCollection<Book>
             {
                 new()
@@ -33,9 +40,12 @@ namespace LibraryDB_Pavel.ViewModel
                     AuthorFirstName = "FName2", AuthorLastName = "LName2", AuthorMiddleName = "MName2",
                     AuthorBirthDay = "01.02.1982", BookTitle = "Book Name 2 new", BookYear = "2001"
                 },
-            };
+            };*/
         }
-
+        public ObservableCollection<T> Convert<T>(IEnumerable<T> original)
+        {
+            return new ObservableCollection<T>(original);
+        }
         private RelayCommand _addCommand;
         public RelayCommand AddCommand
         {
@@ -56,6 +66,7 @@ namespace LibraryDB_Pavel.ViewModel
                            };
 
                            Books.Insert(0, book);
+                           
                        }));
             }
         }
