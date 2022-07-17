@@ -8,6 +8,7 @@ using LibraryDB_Pavel.Model;
 using LibraryDB_Pavel.Extensions;
 using LibraryDB_Pavel.Repository;
 using LibraryDB_Pavel.Repository.Interfaces;
+using LibraryDB_Pavel.Utils.Constants;
 
 
 namespace LibraryDB_Pavel.ViewModel
@@ -16,6 +17,8 @@ namespace LibraryDB_Pavel.ViewModel
     {
         public ObservableCollection<Book> Books { get; set; }
         private readonly IRepository<Book> _bookRepository;
+        private RelayCommand _openCommand;
+        private RelayCommand _showMessage;
         IFileService fileService;
         IDialogService dialogService;
 
@@ -27,7 +30,7 @@ namespace LibraryDB_Pavel.ViewModel
             this.fileService = fileService;
         }
 
-        private RelayCommand _openCommand;
+
 
         public RelayCommand OpenCommand
         {
@@ -58,6 +61,21 @@ namespace LibraryDB_Pavel.ViewModel
                     }));
             }
         }
+
+        public RelayCommand ShowMessage
+        {
+            get
+            {
+                // ReSharper disable once ConvertToNullCoalescingCompoundAssignment
+                return //_openCommand ??
+                    (_openCommand = new RelayCommand(obj =>
+                    {
+                        MessageBox.Show(string.Format(MessagesConstants.HelpFileFormat, BookConstants.CsvSeparator), MessagesConstants.HelpFileFormatWindowTitle);
+                    }));
+            }
+        }
+
+        
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -31,6 +31,9 @@
                     <MenuItem Header="File">
                         <MenuItem Header="Load from CSV" Command="{Binding Path=OpenCommand}" />
                     </MenuItem>
+                    <MenuItem Header="Help">
+                        <MenuItem Header="Show file CSV format" Command="{Binding Path=ShowMessage}" />
+                    </MenuItem>
                 </Menu>
             </StackPanel>
             
