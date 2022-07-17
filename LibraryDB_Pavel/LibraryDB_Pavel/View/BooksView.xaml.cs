@@ -11,7 +11,8 @@ namespace LibraryDB_Pavel
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new BooksViewModel();
+            
+            DataContext = new BooksViewModel(new DialogService(), new FileService());
         }
     }
 }
