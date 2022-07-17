@@ -1,0 +1,25 @@
+﻿<Window x:Class="LibraryDB_Pavel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryDB_Pavel" xmlns:model="clr-namespace:LibraryDB_Pavel.Model" xmlns:viewmodel="clr-namespace:LibraryDB_Pavel.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:BooksViewModel}"
+        mc:Ignorable="d"
+        Title="Library DB Pavel" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid AutoGenerateColumns="False" x:Name="BooksGrid" ItemsSource="{Binding Path=Books, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=AuthorFirstName}" Header="AuthorFirstName" Width="100"/>
+                <DataGridTextColumn Binding="{Binding Path=AuthorMiddleName}" Header="AuthorMiddleName" Width="110"/>
+                <DataGridTextColumn Binding="{Binding Path=AuthorLastName}" Header="AuthorLastName" Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Command="{Binding AddCommand}">TEST</Button>
+        </StackPanel>
+    </Grid>
+</Window>

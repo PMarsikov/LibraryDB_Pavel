@@ -1,0 +1,9 @@
+﻿<Application x:Class="LibraryDB_Pavel.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LibraryDB_Pavel"
+             StartupUri="View/BooksView.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
