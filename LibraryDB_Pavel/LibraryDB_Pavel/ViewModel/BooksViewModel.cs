@@ -42,10 +42,7 @@ namespace LibraryDB_Pavel.ViewModel
                 },
             };*/
         }
-        public ObservableCollection<T> Convert<T>(IEnumerable<T> original)
-        {
-            return new ObservableCollection<T>(original);
-        }
+     
         private RelayCommand _addCommand;
         public RelayCommand AddCommand
         {
