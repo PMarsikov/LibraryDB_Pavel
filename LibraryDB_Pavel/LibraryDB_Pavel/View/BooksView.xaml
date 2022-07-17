@@ -6,20 +6,35 @@
         xmlns:local="clr-namespace:LibraryDB_Pavel" xmlns:model="clr-namespace:LibraryDB_Pavel.Model" xmlns:viewmodel="clr-namespace:LibraryDB_Pavel.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:BooksViewModel}"
         mc:Ignorable="d"
         Title="Library DB Pavel" Height="450" Width="800">
-    <Grid>
+    <DockPanel>
+        <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="False" x:Name="BooksGrid" ItemsSource="{Binding Path=Books, Mode=TwoWay}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=AuthorFirstName}" Header="AuthorFirstName" Width="100"/>
-                <DataGridTextColumn Binding="{Binding Path=AuthorMiddleName}" Header="AuthorMiddleName" Width="110"/>
-                <DataGridTextColumn Binding="{Binding Path=AuthorLastName}" Header="AuthorLastName" Width="70"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button Command="{Binding AddCommand}">TEST</Button>
-        </StackPanel>
-    </Grid>
+          
+            <DataGrid Grid.Row="0" AutoGenerateColumns="False" x:Name="BooksGrid" 
+                  ItemsSource="{Binding Path=Books, Mode=TwoWay}"
+                  IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=AuthorFirstName}" Header="Author First Name" Width="110"/>
+                    <DataGridTextColumn Binding="{Binding Path=AuthorMiddleName}" Header="Author Middle Name" Width="130"/>
+                    <DataGridTextColumn Binding="{Binding Path=AuthorLastName}" Header="Author Last Name" Width="110"/>
+                    <DataGridTextColumn Binding="{Binding Path=AuthorBirthDay}" Header="Author Birth Day" Width="70"/>
+                    <DataGridTextColumn Binding="{Binding Path=BookTitle}" Header="Book Title" Width="Auto"/>
+                    <DataGridTextColumn Binding="{Binding Path=BookYear}" Header="Book Year" Width="70"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="0">
+                <Menu  >
+                    <MenuItem Header="File">
+                        <MenuItem Header="Load from CSV" Command="{Binding Path=OpenCommand}" />
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+            
+        </Grid>
+  
+    </DockPanel>
 </Window>

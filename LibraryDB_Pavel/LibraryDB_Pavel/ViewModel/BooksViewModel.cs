@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using LibraryDB_Pavel.Model;
 using LibraryDB_Pavel.Extensions;
 using LibraryDB_Pavel.Repository;
@@ -43,14 +44,14 @@ namespace LibraryDB_Pavel.ViewModel
             };*/
         }
      
-        private RelayCommand _addCommand;
-        public RelayCommand AddCommand
+        private RelayCommand _openCommand;
+        public RelayCommand OpenCommand
         {
             get
             {
                 // ReSharper disable once ConvertToNullCoalescingCompoundAssignment
-                return _addCommand ??
-                       (_addCommand = new RelayCommand(obj =>
+                return _openCommand ??
+                       (_openCommand = new RelayCommand(obj =>
                        {
                            Book book = new()
                            {
