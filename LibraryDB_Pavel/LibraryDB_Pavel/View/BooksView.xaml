@@ -8,12 +8,67 @@
         Title="Library DB Pavel" Height="450" Width="800">
     <DockPanel>
         <Grid>
-
-        <Grid.RowDefinitions>
+            <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-          
+            <StackPanel Orientation="Vertical">
+                <StackPanel Grid.Row="0">
+                    <Menu  >
+                        <MenuItem Header="File">
+                            <MenuItem Header="Load from CSV" Command="{Binding Path=OpenCommand}" />
+                        </MenuItem>
+                        <MenuItem Header="Help">
+                            <MenuItem Header="Show file CSV format" Command="{Binding Path=ShowMessage}" />
+                        </MenuItem>
+                    </Menu>
+                </StackPanel>
+
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock  Grid.Column="0" Grid.Row="0">Select column to filter</TextBlock>
+                    <ComboBox Grid.Column="1" Grid.Row="0"  Name="booksCbList" Height="20" VerticalAlignment="Top">
+                        <TextBlock>AuthorFirstName</TextBlock>
+                        <TextBlock>AuthorMiddleName</TextBlock>
+                        <TextBlock>AuthorLastName</TextBlock>
+                        <TextBlock>AuthorBirthDay</TextBlock>
+                        <TextBlock>BookTitle</TextBlock>
+                        <TextBlock>BookYear</TextBlock>
+                    </ComboBox>
+                    <TextBox Grid.Column="2" Grid.Row="0"  MaxLength="250" />
+                    <Button Grid.Column="3" Grid.Row="0" Content="Filter" Command="{Binding Path=FilterCommand}"/>
+                    <Button Grid.Column="4" Grid.Row="0" Content="Clear filter"/>
+                    <Button Grid.Column="5" Grid.Row="0" Content="Export to Excel"/>
+                    <Button Grid.Column="6" Grid.Row="0" Content="Export to XML"/>
+                    
+                </Grid>
+
+
+                <DataGrid Grid.Row="0" AutoGenerateColumns="False" x:Name="BooksGrid" 
+                          ItemsSource="{Binding Path=Books, Mode=TwoWay}"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=AuthorFirstName}" Header="Author First Name" Width="110"/>
+                        <DataGridTextColumn Binding="{Binding Path=AuthorMiddleName}" Header="Author Middle Name" Width="130"/>
+                        <DataGridTextColumn Binding="{Binding Path=AuthorLastName}" Header="Author Last Name" Width="110"/>
+                        <DataGridTextColumn Binding="{Binding Path=AuthorBirthDay}" Header="Author Birth Day" Width="70"/>
+                        <DataGridTextColumn Binding="{Binding Path=BookTitle}" Header="Book Title" Width="Auto"/>
+                        <DataGridTextColumn Binding="{Binding Path=BookYear}" Header="Book Year" Width="70"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <!--
             <DataGrid Grid.Row="0" AutoGenerateColumns="False" x:Name="BooksGrid" 
                   ItemsSource="{Binding Path=Books, Mode=TwoWay}"
                   IsReadOnly="True">
@@ -36,7 +91,7 @@
                     </MenuItem>
                 </Menu>
             </StackPanel>
-            
+            -->
         </Grid>
   
     </DockPanel>
