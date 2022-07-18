@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using LibraryDB_Pavel.Repository;
+using LibraryDB_Pavel.Utils.Enums;
 using LibraryDB_Pavel.ViewModel;
 
 namespace LibraryDB_Pavel
@@ -12,7 +16,8 @@ namespace LibraryDB_Pavel
         {
             InitializeComponent();
             
-            DataContext = new BooksViewModel(new DialogService(), new FileService());
+            DataContext = new BooksViewModel(new DialogService(), new FileService(), new DbBookContext());
+            BooksCbList.ItemsSource = Enum.GetValues(typeof(BookEnums.BooksRows)).Cast<BookEnums.BooksRows>();
         }
     }
 }

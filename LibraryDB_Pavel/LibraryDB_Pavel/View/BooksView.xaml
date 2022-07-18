@@ -38,17 +38,20 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock  Grid.Column="0" Grid.Row="0">Select column to filter</TextBlock>
-                    <ComboBox Grid.Column="1" Grid.Row="0"  Name="booksCbList" Height="20" VerticalAlignment="Top">
-                        <TextBlock>AuthorFirstName</TextBlock>
+                    <ComboBox Grid.Column="1" Grid.Row="0"  Name="BooksCbList" Height="20" VerticalAlignment="Top"
+                              SelectedItem="{Binding MySelectedItem}"
+                              >
+                        <!--<TextBlock>AuthorFirstName</TextBlock>
                         <TextBlock>AuthorMiddleName</TextBlock>
                         <TextBlock>AuthorLastName</TextBlock>
                         <TextBlock>AuthorBirthDay</TextBlock>
                         <TextBlock>BookTitle</TextBlock>
-                        <TextBlock>BookYear</TextBlock>
+                        <TextBlock>BookYear</TextBlock>-->
                     </ComboBox>
-                    <TextBox Grid.Column="2" Grid.Row="0"  MaxLength="250" />
-                    <Button Grid.Column="3" Grid.Row="0" Content="Filter" Command="{Binding Path=FilterCommand}"/>
-                    <Button Grid.Column="4" Grid.Row="0" Content="Clear filter"/>
+                    
+                    <TextBox Grid.Column="2" Grid.Row="0"  Text="{Binding FilterValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Grid.Column="3" Grid.Row="0" Content="Apply Filter" Command="{Binding Path=FilterCommand}"/>
+                    <Button Grid.Column="4" Grid.Row="0" Content="Clear Filter"/>
                     <Button Grid.Column="5" Grid.Row="0" Content="Export to Excel"/>
                     <Button Grid.Column="6" Grid.Row="0" Content="Export to XML"/>
                     
