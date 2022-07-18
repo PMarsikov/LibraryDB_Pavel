@@ -154,8 +154,6 @@ namespace LibraryDB_Pavel.ViewModel
             }
         }
 
-
-
         public RelayCommand ShowMessage
         {
             get
