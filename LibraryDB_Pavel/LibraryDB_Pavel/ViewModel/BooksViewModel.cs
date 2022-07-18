@@ -25,6 +25,7 @@ namespace LibraryDB_Pavel.ViewModel
         private BookEnums.BooksRows _filterPropertyName;
         private RelayCommand _openCommand;
         private RelayCommand _filterCommand;
+        private RelayCommand _clearFilter;
         private RelayCommand _showMessage;
         private RelayCommand _exportToXmlCommand;
         private readonly IDbBookContext _dbContext;
@@ -49,7 +50,11 @@ namespace LibraryDB_Pavel.ViewModel
         public string FilterValue
         {
             get => _filterValue;
-            set { _filterValue = value; }
+            set
+            {
+                _filterValue = value;
+                OnPropertyChanged(nameof(FilterValue));
+            }
         }
 
         public RelayCommand OpenCommand
@@ -128,6 +133,23 @@ namespace LibraryDB_Pavel.ViewModel
                         Books.Clear();
                         foreach (var book in filteredBooks)
                             Books.Add(book);
+                    }));
+            }
+        }
+
+        public RelayCommand ClearFilter
+        {
+            get
+            {
+                // ReSharper disable once ConvertToNullCoalescingCompoundAssignment
+                return //_openCommand ??
+                    (_clearFilter = new RelayCommand(obj =>
+                    {
+                        var books = _dbContext.Books;
+                        Books.Clear();
+                        foreach (var book in books)
+                            Books.Add(book);
+                        FilterValue = "";
                     }));
             }
         }
