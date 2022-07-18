@@ -39,7 +39,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock  Grid.Column="0" Grid.Row="0">Select column to filter</TextBlock>
                     <ComboBox Grid.Column="1" Grid.Row="0"  Name="BooksCbList" Height="20" VerticalAlignment="Top"
-                              SelectedItem="{Binding MySelectedItem}"
+                              SelectedItem="{Binding FilterPropertyName}"
                               >
                         <!--<TextBlock>AuthorFirstName</TextBlock>
                         <TextBlock>AuthorMiddleName</TextBlock>
@@ -53,7 +53,7 @@
                     <Button Grid.Column="3" Grid.Row="0" Content="Apply Filter" Command="{Binding Path=FilterCommand}"/>
                     <Button Grid.Column="4" Grid.Row="0" Content="Clear Filter"/>
                     <Button Grid.Column="5" Grid.Row="0" Content="Export to Excel"/>
-                    <Button Grid.Column="6" Grid.Row="0" Content="Export to XML"/>
+                    <Button Grid.Column="6" Grid.Row="0" Content="Export to XML" Command="{Binding Path=ExportToXmlCommand}"/>
                     
                 </Grid>
 

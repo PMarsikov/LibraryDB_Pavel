@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -12,7 +13,8 @@ using LibraryDB_Pavel.Repository.Interfaces;
 using LibraryDB_Pavel.Utils.Constants;
 using LibraryDB_Pavel.Utils.Enums;
 using Microsoft.EntityFrameworkCore;
-
+using System.Xml.Serialization;
+using NsExcel = Microsoft.Office.Interop.Excel;
 
 namespace LibraryDB_Pavel.ViewModel
 {
@@ -21,10 +23,11 @@ namespace LibraryDB_Pavel.ViewModel
         public ObservableCollection<Book> Books { get; set; }
         private readonly IRepository<Book> _bookRepository;
         private string _filterValue;
-        private BookEnums.BooksRows _mySelectedItem;
+        private BookEnums.BooksRows _filterPropertyName;
         private RelayCommand _openCommand;
         private RelayCommand _filterCommand;
         private RelayCommand _showMessage;
+        private RelayCommand _exportToXmlCommand;
         private readonly IDbBookContext _dbContext;
         IFileService fileService;
         IDialogService dialogService;
@@ -38,10 +41,10 @@ namespace LibraryDB_Pavel.ViewModel
             _dbContext = dbContext;
         }
 
-        public BookEnums.BooksRows MySelectedItem
+        public BookEnums.BooksRows FilterPropertyName
         {
-            get => _mySelectedItem;
-            set { _mySelectedItem = value; }
+            get => _filterPropertyName;
+            set { _filterPropertyName = value; }
         }
 
         public string FilterValue
@@ -80,6 +83,26 @@ namespace LibraryDB_Pavel.ViewModel
             }
         }
 
+        public RelayCommand ExportToXmlCommand
+        {
+            get
+            {
+                // ReSharper disable once ConvertToNullCoalescingCompoundAssignment
+                return //_openCommand ??
+                    (_exportToXmlCommand = new RelayCommand(obj =>
+                    {
+                        XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<Book>));
+                        using (FileStream fs = new FileStream("people2.xml", FileMode.OpenOrCreate))
+                        {
+                            formatter.Serialize(fs, Books);
+                        }
+                        MessageBox.Show(string.Format(MessagesConstants.DataExportedToXml, "path....."));
+                    }));
+            }
+        }
+
+     
+
         public RelayCommand FilterCommand
         {
             get
@@ -89,7 +112,7 @@ namespace LibraryDB_Pavel.ViewModel
                     (_filterCommand = new RelayCommand(obj =>
                     {
                         var books = _dbContext.Books;
-                        var selectedBooks = FilteredList(_mySelectedItem, books);
+                        var selectedBooks = FilteredList(_filterPropertyName, books);
                         Books.Clear();
                         foreach (var book in selectedBooks)
                             Books.Add(book);
