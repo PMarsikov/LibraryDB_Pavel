@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Xml.Linq;
 using LibraryDB_Pavel.Model;
 using LibraryDB_Pavel.Extensions;
 using LibraryDB_Pavel.Repository;
@@ -13,8 +14,6 @@ using LibraryDB_Pavel.Repository.Interfaces;
 using LibraryDB_Pavel.Utils.Constants;
 using LibraryDB_Pavel.Utils.Enums;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Serialization;
-using NsExcel = Microsoft.Office.Interop.Excel;
 
 namespace LibraryDB_Pavel.ViewModel
 {
@@ -91,17 +90,30 @@ namespace LibraryDB_Pavel.ViewModel
                 return //_openCommand ??
                     (_exportToXmlCommand = new RelayCommand(obj =>
                     {
-                        XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<Book>));
-                        using (FileStream fs = new FileStream("people2.xml", FileMode.OpenOrCreate))
+                        XDocument xdoc = new XDocument();
+                        XElement root = new XElement("TestProgram");
+                        foreach (var book in Books)
                         {
-                            formatter.Serialize(fs, Books);
+                            XElement record = new XElement("Record");
+                            record.Add(new XAttribute("id", book.Id));
+                            record.Add(new XElement("FirstName", book.AuthorFirstName));
+                            record.Add(new XElement("MiddleName", book.AuthorMiddleName));
+                            record.Add(new XElement("AuthorLastName", book.AuthorLastName));
+                            record.Add(new XElement("AuthorBirthDay", book.AuthorBirthDay));
+                            record.Add(new XElement("BookTitle", book.BookTitle));
+                            record.Add(new XElement("BookYear", book.BookYear));
+                            root.Add(record);
                         }
-                        MessageBox.Show(string.Format(MessagesConstants.DataExportedToXml, "path....."));
+
+                        xdoc.Add(root);
+                        var path = FilePath(BookConstants.FileNameXml, ".xml");
+                        xdoc.Save(path);
+                        MessageBox.Show(string.Format(MessagesConstants.DataExportedToXml, path));
                     }));
             }
         }
 
-     
+
 
         public RelayCommand FilterCommand
         {
@@ -112,12 +124,36 @@ namespace LibraryDB_Pavel.ViewModel
                     (_filterCommand = new RelayCommand(obj =>
                     {
                         var books = _dbContext.Books;
-                        var selectedBooks = FilteredList(_filterPropertyName, books);
+                        var filteredBooks = FilteredList(_filterPropertyName, books);
                         Books.Clear();
-                        foreach (var book in selectedBooks)
+                        foreach (var book in filteredBooks)
                             Books.Add(book);
                     }));
             }
+        }
+
+
+
+        public RelayCommand ShowMessage
+        {
+            get
+            {
+                // ReSharper disable once ConvertToNullCoalescingCompoundAssignment
+                return //_openCommand ??
+                    (_openCommand = new RelayCommand(obj =>
+                    {
+                        MessageBox.Show(string.Format(MessagesConstants.HelpFileFormat, BookConstants.CsvSeparator),
+                            MessagesConstants.HelpFileFormatWindowTitle);
+                    }));
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
         private IOrderedQueryable<Book> FilteredList(BookEnums.BooksRows property, DbSet<Book> books)
@@ -150,26 +186,28 @@ namespace LibraryDB_Pavel.ViewModel
             }
         }
 
-        public RelayCommand ShowMessage
+        private string FilePath(string fileName, string fileExtension)
         {
-            get
+            string currentDirectory;
+            try
             {
-                // ReSharper disable once ConvertToNullCoalescingCompoundAssignment
-                return //_openCommand ??
-                    (_openCommand = new RelayCommand(obj =>
-                    {
-                        MessageBox.Show(string.Format(MessagesConstants.HelpFileFormat, BookConstants.CsvSeparator),
-                            MessagesConstants.HelpFileFormatWindowTitle);
-                    }));
+                currentDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
             }
-        }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+            var resultsFolder = currentDirectory + BookConstants.FolderForExportedData;
+            var dateTime = DateTime.Now.ToFileTimeUtc();
+            var dirInfo = new DirectoryInfo(resultsFolder);
+            if (!dirInfo.Exists)
+            {
+                dirInfo.Create();
+            }
 
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            return resultsFolder + fileName + dateTime + fileExtension;
         }
     }
 }
