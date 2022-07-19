@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LibraryDB_Pavel.Model;
@@ -12,9 +13,11 @@ namespace LibraryDB_Pavel
         public IEnumerable<Book> Open(string fileName)
         {
             string[] lines = File.ReadAllLines(fileName);
+
             return lines.Select(line =>
             {
                 string[] data = line.Split(BookConstants.CsvSeparator);
+                Console.WriteLine(data.Length);
                 return
                     new Book()
                     {

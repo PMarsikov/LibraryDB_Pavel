@@ -70,12 +70,20 @@ namespace LibraryDB_Pavel.ViewModel
                         {
                             if (dialogService.OpenFileDialog())
                             {
-                                var books =
-                                    fileService.Open(dialogService.FilePath);
-                                foreach (var book in books)
+                                try
                                 {
-                                    _bookRepository.Create(book);
-                                    Books.Add(book);
+                                    var books =
+                                        fileService.Open(dialogService.FilePath);
+                                    foreach (var book in books)
+                                    {
+                                        _bookRepository.Create(book);
+                                        Books.Add(book);
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e);
+                                    MessageBox.Show(MessagesConstants.WrongCsvFormatMsg);
                                 }
                             }
                         }

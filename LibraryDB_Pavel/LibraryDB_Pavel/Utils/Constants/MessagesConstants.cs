@@ -6,5 +6,6 @@
         public const string HelpFileFormatWindowTitle = "CSV file format";
         public const string DataExportedToXml = "Data has been exported to the file:\n({0})";
         public const string ErrorInputMsg = "Please, specify filter criteria.";
+        public const string WrongCsvFormatMsg = "CSV format wrong. Please, check Help item to see required CSV format";
     }
 }
