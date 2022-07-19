@@ -37,15 +37,16 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock  Grid.Column="0" Grid.Row="0">Select column to filter</TextBlock>
+                    <TextBlock  Grid.Column="0" Grid.Row="0">Select column to filter </TextBlock>
                     <ComboBox Grid.Column="1" Grid.Row="0"  Name="BooksCbList" Height="20" VerticalAlignment="Top"
                               SelectedItem="{Binding FilterPropertyName}">
                     </ComboBox>
-                    <TextBox Grid.Column="2" Grid.Row="0"  Text="{Binding FilterValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button Grid.Column="3" Grid.Row="0" Content="Apply Filter" Command="{Binding Path=FilterCommand}"/>
-                    <Button Grid.Column="4" Grid.Row="0" Content="Clear Filter" Command="{Binding Path=ClearFilter}"/>
-                    <Button Grid.Column="5" Grid.Row="0" Content="Export to Excel"/>
-                    <Button Grid.Column="6" Grid.Row="0" Content="Export to XML" Command="{Binding Path=ExportToXmlCommand}"/>
+                    <TextBlock  Grid.Column="2" Grid.Row="0" Margin="10 0 0 0 "> Specify filter criteria:</TextBlock>
+                    <TextBox Grid.Column="3" Grid.Row="0"  Text="{Binding FilterValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Grid.Column="4" Grid.Row="0" Content="Apply Filter" Command="{Binding Path=FilterCommand}"/>
+                    <Button Grid.Column="5" Grid.Row="0" Content="Clear Filter" Command="{Binding Path=ClearFilter}"/>
+                    <Button Grid.Column="6" Grid.Row="0" Content="Export to Excel"/>
+                    <Button Grid.Column="7" Grid.Row="0" Content="Export to XML" Command="{Binding Path=ExportToXmlCommand}"/>
                 </Grid>
                 <DataGrid Grid.Row="0" AutoGenerateColumns="False" x:Name="BooksGrid" 
                           ItemsSource="{Binding Path=Books, Mode=TwoWay}"

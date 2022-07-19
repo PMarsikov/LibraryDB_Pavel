@@ -128,11 +128,24 @@ namespace LibraryDB_Pavel.ViewModel
                 return //_openCommand ??
                     (_filterCommand = new RelayCommand(obj =>
                     {
-                        var books = _dbContext.Books;
-                        var filteredBooks = FilteredList(_filterPropertyName, books);
-                        Books.Clear();
-                        foreach (var book in filteredBooks)
-                            Books.Add(book);
+                        try
+                        {
+                            if (_filterValue is null or "")
+                            {
+                                MessageBox.Show(MessagesConstants.ErrorInputMsg);
+                                return;
+                            }
+                            var books = _dbContext.Books;
+                            var filteredBooks = FilteredList(_filterPropertyName, books);
+                            Books.Clear();
+                            foreach (var book in filteredBooks)
+                                Books.Add(book);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            throw;
+                        }
                     }));
             }
         }
