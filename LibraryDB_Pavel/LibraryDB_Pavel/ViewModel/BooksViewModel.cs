@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -126,7 +125,19 @@ namespace LibraryDB_Pavel.ViewModel
             }
         }
 
-
+        public RelayCommand ExportToExcelCommand
+        {
+            get
+            {
+                // ReSharper disable once ConvertToNullCoalescingCompoundAssignment
+                return //_openCommand ??
+                    (_exportToXmlCommand = new RelayCommand(obj =>
+                    {
+                        
+                        MessageBox.Show("Exporting to excel . . .");
+                    }));
+            }
+        }
 
         public RelayCommand FilterCommand
         {
