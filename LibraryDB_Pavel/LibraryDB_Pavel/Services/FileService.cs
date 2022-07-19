@@ -19,7 +19,7 @@ namespace LibraryDB_Pavel
                 string[] data = line.Split(BookConstants.CsvSeparator);
                 Console.WriteLine(data.Length);
                 return
-                    new Book()
+                    new Book
                     {
                         AuthorFirstName = data[0],
                         AuthorLastName = data[1],

@@ -33,11 +33,12 @@ namespace LibraryDB_Pavel.ViewModel
 
         public BooksViewModel(IDialogService dialogService, IFileService fileService, IDbBookContext dbContext)
         {
+            _dbContext = dbContext;
             this._bookRepository = new BookRepository(new DbBookContext());
             Books = _bookRepository.GetObjects().ToObservableCollection();
             this.dialogService = dialogService;
             this.fileService = fileService;
-            _dbContext = dbContext;
+
         }
 
         public BookEnums.BooksRows FilterPropertyName
@@ -75,8 +76,10 @@ namespace LibraryDB_Pavel.ViewModel
                                         fileService.Open(dialogService.FilePath);
                                     foreach (var book in books)
                                     {
-                                        _bookRepository.Create(book);
+                                        var ppp = book;
                                         Books.Add(book);
+                                        _bookRepository.Create(book);
+                                        
                                     }
                                 }
                                 catch (Exception e)

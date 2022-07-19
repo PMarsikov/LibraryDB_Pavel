@@ -18,7 +18,16 @@ namespace LibraryDB_Pavel.Repository
 
         public IEnumerable<Book> GetObjects()
         {
-            return _dbContext.Books.ToList();
+            try
+            {
+                return _dbContext.Books.ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Enumerable.Empty<Book>();
+            }
+           
         }
 
         public void Create(Book entity)
